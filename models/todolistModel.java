@@ -71,6 +71,8 @@ public class todolistModel implements todolistInterface {
             System.out.println("yay, Tidak ada tugas!");
             return;
         }
+
+        //
         for (int i = 1; i <= tasks.size(); i++) {
             System.out.println("Task ID " + i + ": " + tasks.get(i).getTask() + " - " + tasks.get(i).getStatus());
         }

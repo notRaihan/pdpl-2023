@@ -34,9 +34,13 @@ public class prompts {
                         // clear screen with escape sequence
                         System.out.print("\033[H\033[2J");
 
+                        System.out.print("Tambah todolist: ");
+                        String taskName = scanner.nextLine();
+                        
+
 
                         // print task message has been added
-                        for (String task : taskModel.create("Belajar Java")) {
+                        for (String task : taskModel.create(taskName)) {
                             System.out.println(task);
                         }
 
