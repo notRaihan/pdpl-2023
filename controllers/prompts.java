@@ -3,7 +3,7 @@ package controllers;
 import java.util.Scanner;
 
 import models.todolistModel;
-import view.menu;
+import views.menu;
 
 public class prompts {
     public static void main(String[] args) {
