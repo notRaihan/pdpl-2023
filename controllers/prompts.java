@@ -77,6 +77,20 @@ public class prompts {
                         System.out.print("\033[H\033[2J");
 
                         System.out.println("Hapus todolist");
+                        System.out.print("Masukkan id task yang ingin dihapus: ");
+                        String taskId = scanner.nextLine();
+
+                        if (taskId.isEmpty()) {
+                            taskModel.delete(0); // Hapus tugas pertama
+                        } else {
+                            try {
+                                int idDelete = Integer.parseInt(taskId);
+                                taskModel.delete(idDelete);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Input ID tidak valid. Tugas tidak dihapus.");
+                            }
+                        }
+                        menu.back(scanner);
                         break;
                     case 0:
                         System.out.println("Keluar");
