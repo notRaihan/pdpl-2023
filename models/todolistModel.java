@@ -80,8 +80,20 @@ public class todolistModel implements todolistInterface {
     
 
     //TODO: update task/status (update)
-    public void update() {
-        System.out.println("Ini adalah fungsi update");
+    // update task name and status based on task ID (update)
+    public void update(int taskId, String newTaskName, String newStatus) {
+        if (tasks.containsKey(taskId)) {
+            // get the task using the task ID
+            taskModel taskToUpdate = tasks.get(taskId);
+
+            // update task name and status
+            taskToUpdate.setTask(newTaskName);
+            taskToUpdate.setStatus(newStatus);
+
+            System.out.println("Task berhasil diupdate.");
+        } else {
+            System.out.println("Task ID tidak valid.");
+        }
     }
 
     //TODO: delete task (delete)
