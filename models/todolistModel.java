@@ -97,7 +97,20 @@ public class todolistModel implements todolistInterface {
     }
 
     //TODO: delete task (delete)
-    public void delete() {
-        System.out.println("Ini adalah fungsi delete");
+    public void delete(int taskId) {
+        if (taskId == 0) {
+            // Jika id tidak diinputkan, hapus tugas pertama
+            if (!tasks.isEmpty()) {
+                tasks.remove(1);
+                System.out.println("Tugas pertama berhasil dihapus.");
+            } else {
+                System.out.println("Tidak ada tugas untuk dihapus.");
+            }
+        } else if (tasks.containsKey(taskId)) {
+            tasks.remove(taskId);
+            System.out.println("Task dengan ID " + taskId + " berhasil dihapus.");
+        } else {
+            System.out.println("Task dengan ID " + taskId + " tidak ditemukan.");
+        }
     }
 }
