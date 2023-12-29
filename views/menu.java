@@ -6,6 +6,7 @@ import models.*;
 
 final public class menu {
 
+    // center text in console
     private static String center(String text, int len){
         if (text.length() > len) return text.substring(0, len);
         if (text.length() == len) return text;
@@ -41,7 +42,7 @@ final public class menu {
         System.out.print("Pilih menu: ");
     }
 
-
+    // show window
     public static void window(String title, String content) {
         String border = "+" + "-".repeat(48) + "+";
     
@@ -52,6 +53,7 @@ final public class menu {
         System.out.println(border);
     }
 
+    // show window title
     public static void windowTitle(String title) {
         String border = "+" + "-".repeat(48) + "+";
     

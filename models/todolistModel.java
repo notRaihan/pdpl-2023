@@ -79,8 +79,6 @@ public class todoListModel implements todolistInterface {
         menu.showAllTasks(tasks);
     }
     
-
-    //TODO: update task/status (update)
     // update task name and status based on task ID (update)
     public void update(int taskId, String newTaskName, String newStatus) {
         String result;
@@ -101,7 +99,7 @@ public class todoListModel implements todolistInterface {
         }
     }
 
-    //TODO: delete task (delete)
+    // delete task based on task ID (delete)
     public void delete(int taskId) {
         String result;
         if (tasks.containsKey(taskId)) {
