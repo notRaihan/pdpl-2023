@@ -20,4 +20,12 @@ public class taskModel {
     public String getStatus() {
         return this.status;
     }
+
+    public void setTask(String task) {
+        this.task = task;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

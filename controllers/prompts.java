@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import models.todolistModel;
@@ -10,16 +11,27 @@ public class prompts {
         todolistModel taskModel = todolistModel.getInstance();
 
         try (Scanner scanner = new Scanner(System.in)) {
-
-            while (!scanner.equals("0")) {
+            int choice = -1;
+            while (choice != 0) {
 
                 // clear screen with escape sequence
                 System.out.print("\033[H\033[2J");
 
                 menu.main();
-                System.out.print("Pilih menu: ");
 
-                int choice = scanner.nextInt();
+                // handle input jika bukan angka
+                try {
+                    choice = scanner.nextInt();
+                } catch (InputMismatchException e) {
+                    // clear screen with escape sequence
+                    System.out.print("\033[H\033[2J");
+
+                    System.out.println("Input harus berupa angka");
+                    scanner.nextLine(); // consume newline
+                    menu.back(scanner);
+                    continue;
+                }
+
                 scanner.nextLine(); // consume newline
 
                 switch (choice) {
@@ -36,38 +48,38 @@ public class prompts {
 
                         System.out.print("Tambah todolist: ");
                         String taskName = scanner.nextLine();
-                        
 
+                        // clear screen with escape sequence
+                        System.out.print("\033[H\033[2J");
 
                         // print task message has been added
-                        for (String task : taskModel.create(taskName)) {
-                            System.out.println(task);
-                        }
+                        System.out.println(taskModel.create(taskName));
 
                         menu.back(scanner);
                         break;
-                   case 3:
-                         // clear screen with escape sequence
+                    case 3:
+                        // clear screen with escape sequence
                         System.out.print("\033[H\033[2J");
 
                         taskModel.getAllTasks();
-                        System.out.print("Pilih nomor todolist yang ingin diubah: ");
+                        System.out.print("Pilih nomor task yang ingin diubah: ");
                         int taskIndexToUpdate = scanner.nextInt();
                         scanner.nextLine(); // consume newline
 
-                        // Check if the index is valid
-                        if (taskIndexToUpdate >= 1 && taskIndexToUpdate <= taskModel.getTaskCount()) {
-                        System.out.print("Masukkan perubahan untuk todolist: ");
+                        if (taskIndexToUpdate > taskModel.getTasks().size() && taskIndexToUpdate <= 1) {
+                            System.out.println("Nomor tidak valid");
+                            menu.back(scanner);
+                            break;
+                        }
+
+                        System.out.print("Ubah todolist: ");
                         String updatedTaskName = scanner.nextLine();
 
-                        // Update the task
-                        for (String task : taskModel.update(taskIndexToUpdate, updatedTaskName)) {
-                        System.out.println(task);
-                        }
-                        System.out.println("Todolist berhasil diubah.");
-                        } else {
-                        System.out.println("Nomor todolist tidak valid.");
-                        }
+                        // clear screen with escape sequence
+                        System.out.print("\033[H\033[2J");
+
+                        // print task message has been updasted
+                        System.out.println(taskModel.update(taskIndexToUpdate, updatedTaskName, "undone"));
 
                         menu.back(scanner);
                         break;
@@ -76,30 +88,32 @@ public class prompts {
                         // clear screen with escape sequence
                         System.out.print("\033[H\033[2J");
 
-                        System.out.println("Hapus todolist");
+                        taskModel.getAllTasks();
                         System.out.print("Masukkan id task yang ingin dihapus: ");
-                        String taskId = scanner.nextLine();
+                        Integer taskId = scanner.nextInt();
+                        scanner.nextLine(); // consume newline
 
-                        if (taskId.isEmpty()) {
-                            taskModel.delete(0); // Hapus tugas pertama
-                        } else {
-                            try {
-                                int idDelete = Integer.parseInt(taskId);
-                                taskModel.delete(idDelete);
-                            } catch (NumberFormatException e) {
-                                System.out.println("Input ID tidak valid. Tugas tidak dihapus.");
-                            }
-                        }
+                        // clear screen with escape sequence
+                        System.out.print("\033[H\033[2J");
+
+                        System.out.println(taskModel.delete(taskId));
                         menu.back(scanner);
                         break;
+
                     case 0:
-                        System.out.println("Keluar");
+                        System.out.println("Bye, terima kasih telah menggunakan aplikasi ini!");
                         break;
                     default:
+                        // clear screen with escape sequence
+                        System.out.print("\033[H\033[2J");
+
                         System.out.println("Menu tidak tersedia");
+                        menu.back(scanner);
                         break;
                 }
             }
+        } catch (Exception e) {
+            System.out.println("Terjadi error: " + e.getMessage());
         }
 
     }

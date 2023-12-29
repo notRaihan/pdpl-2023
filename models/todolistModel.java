@@ -7,10 +7,10 @@ import java.util.HashMap;
  * todolistModel
  */
 interface todolistInterface {
-        public String[] create(String task); // create
+        public String create(String task); // create
         public void getAllTasks(); // read
-        public void update();
-        public void delete();
+        public String update(int taskId, String newTaskName, String newStatus); // update
+        // public void delete();
 }
 
 
@@ -43,14 +43,14 @@ public class todolistModel implements todolistInterface {
 
 
     // create hashmap to store tasks
-    public HashMap<Integer, taskModel> tasks = new HashMap<Integer, taskModel>();
+    private HashMap<Integer, taskModel> tasks = new HashMap<Integer, taskModel>();
 
 
 
 
 
     // create task and add to tasks hashmap, return success message (create)
-    public String[] create(String task) {
+    public String create(String task) {
         
         // create task object, set status to undone
         taskModel newTask = new taskModel(task, "undone");
@@ -59,7 +59,8 @@ public class todolistModel implements todolistInterface {
         tasks.put(tasks.size() + 1, newTask);
 
         // return success message
-        String[] result = {"success", "Task berhasil ditambahkan"};
+        String result = "Task berhasil ditambahkan. \n" +
+                        "Task: " + newTask.getTask() + " - " + newTask.getStatus() + "\n";
         return result;
     }
 
@@ -81,7 +82,8 @@ public class todolistModel implements todolistInterface {
 
     //TODO: update task/status (update)
     // update task name and status based on task ID (update)
-    public void update(int taskId, String newTaskName, String newStatus) {
+    public String update(int taskId, String newTaskName, String newStatus) {
+        String result;
         if (tasks.containsKey(taskId)) {
             // get the task using the task ID
             taskModel taskToUpdate = tasks.get(taskId);
@@ -90,27 +92,41 @@ public class todolistModel implements todolistInterface {
             taskToUpdate.setTask(newTaskName);
             taskToUpdate.setStatus(newStatus);
 
-            System.out.println("Task berhasil diupdate.");
+            result = "Task dengan ID: " + taskId + " berhasil diubah. \n" +
+                     "Task: " + taskToUpdate.getTask() + " - " + taskToUpdate.getStatus() + "\n";
+
+            return result;
         } else {
-            System.out.println("Task ID tidak valid.");
+            result = "Task dengan ID: " + taskId + " tidak ditemukan.";
+            return result;
         }
     }
 
     //TODO: delete task (delete)
-    public void delete(int taskId) {
-        if (taskId == 0) {
-            // Jika id tidak diinputkan, hapus tugas pertama
-            if (!tasks.isEmpty()) {
-                tasks.remove(1);
-                System.out.println("Tugas pertama berhasil dihapus.");
-            } else {
-                System.out.println("Tidak ada tugas untuk dihapus.");
-            }
-        } else if (tasks.containsKey(taskId)) {
+    public String delete(int taskId) {
+        String result;
+        if (tasks.containsKey(taskId)) {
+            
+            // get the task using the task ID
+            taskModel taskToDelete = tasks.get(taskId);
+
+            result = "Task dengan ID: " + taskId + " berhasil dihapus. \n" +
+                     "Task: " + taskToDelete.getTask() + " - " + taskToDelete.getStatus() + "\n";
+
+            // delete task
             tasks.remove(taskId);
-            System.out.println("Task dengan ID " + taskId + " berhasil dihapus.");
+
+            
+
+            return result;
         } else {
-            System.out.println("Task dengan ID " + taskId + " tidak ditemukan.");
+            result = "Task dengan ID: " + taskId + " tidak ditemukan.";
+            return result;
         }
+    }
+
+    // getter for tasks
+    public HashMap<Integer, taskModel> getTasks() {
+        return this.tasks;
     }
 }
