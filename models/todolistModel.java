@@ -18,20 +18,20 @@ interface todolistInterface {
 /**
  * todolistModel
  */
-public class todolistModel implements todolistInterface {
+public class todoListModel implements todolistInterface {
 
     /*
      * singleton pattern
      */
 
      // create private static instance of todolistModel, so there's only one instance of todolistModel
-    private static todolistModel instance = new todolistModel();
+    private static todoListModel instance = new todoListModel();
 
     // make constructor private, so it can't be accessed from outside
-    private todolistModel() {}
+    private todoListModel() {}
 
     // get the only instance of todolistModel
-    public static todolistModel getInstance() {
+    public static todoListModel getInstance() {
         return instance;
     }
     

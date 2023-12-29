@@ -3,12 +3,13 @@ package controllers;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import models.todolistModel;
+import models.todoListModel;
 import views.menu;
 
-public class prompts {
-    public static void main(String[] args) {
-        todolistModel taskModel = todolistModel.getInstance();
+final public class prompts {
+
+    public static void start() {
+        todoListModel taskModel = todoListModel.getInstance();
 
         try (Scanner scanner = new Scanner(System.in)) {
             int choice = -1;
@@ -158,7 +159,8 @@ public class prompts {
                         menu.clearScreen();
 
                         taskModel.getAllTasks();
-                        menu.window("Delete - ToDo-List", "Masukkan nomor todolist yang ingin dihapus: ");
+                        menu.windowTitle("Delete - ToDo-List");
+                        System.out.print("-> Masukkan nomor task yang ingin dihapus: ");
 
                         try {
                             taskId = scanner.nextInt();
