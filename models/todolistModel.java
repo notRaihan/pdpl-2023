@@ -1,16 +1,17 @@
 package models;
 
 import java.util.HashMap;
+import views.*;
 
 
 /**
  * todolistModel
  */
 interface todolistInterface {
-        public String create(String task); // create
+        public void create(String task); // create
         public void getAllTasks(); // read
-        public String update(int taskId, String newTaskName, String newStatus); // update
-        // public void delete();
+        public void update(int taskId, String newTaskName, String newStatus); // update
+        public void delete(int taskId); // delete
 }
 
 
@@ -50,39 +51,38 @@ public class todolistModel implements todolistInterface {
 
 
     // create task and add to tasks hashmap, return success message (create)
-    public String create(String task) {
+    public void create(String task) {
         
         // create task object, set status to undone
-        taskModel newTask = new taskModel(task, "undone");
+        taskModel newTask = new taskModel(task, "Belum selesai");
 
         // add task to tasks
         tasks.put(tasks.size() + 1, newTask);
 
         // return success message
-        String result = "Task berhasil ditambahkan. \n" +
-                        "Task: " + newTask.getTask() + " - " + newTask.getStatus() + "\n";
-        return result;
+        String result = "Task: " + newTask.getTask() + " - " + newTask.getStatus();
+
+        menu.window("Success Create - ToDo-List", result);
     }
 
 
     // read all tasks from tasks hashmap, print all tasks (read)
     public void getAllTasks() {
 
+        // check if tasks is empty
         if (tasks.size() == 0) {
-            System.out.println("yay, Tidak ada tugas!");
+            menu.window("Error on Read - ToDo-List", "Tidak ada tugas!");
             return;
         }
 
-        //
-        for (int i = 1; i <= tasks.size(); i++) {
-            System.out.println("Task ID " + i + ": " + tasks.get(i).getTask() + " - " + tasks.get(i).getStatus());
-        }
+        // print all tasks
+        menu.showAllTasks(tasks);
     }
     
 
     //TODO: update task/status (update)
     // update task name and status based on task ID (update)
-    public String update(int taskId, String newTaskName, String newStatus) {
+    public void update(int taskId, String newTaskName, String newStatus) {
         String result;
         if (tasks.containsKey(taskId)) {
             // get the task using the task ID
@@ -92,36 +92,34 @@ public class todolistModel implements todolistInterface {
             taskToUpdate.setTask(newTaskName);
             taskToUpdate.setStatus(newStatus);
 
-            result = "Task dengan ID: " + taskId + " berhasil diubah. \n" +
-                     "Task: " + taskToUpdate.getTask() + " - " + taskToUpdate.getStatus() + "\n";
+            result = "Task: " + taskToUpdate.getTask() + " - " + taskToUpdate.getStatus();
 
-            return result;
+            menu.window("Update Task ID: " + taskId + " - ToDo-List", result);
         } else {
             result = "Task dengan ID: " + taskId + " tidak ditemukan.";
-            return result;
+            menu.window("Update - ToDo-List", result);
         }
     }
 
     //TODO: delete task (delete)
-    public String delete(int taskId) {
+    public void delete(int taskId) {
         String result;
         if (tasks.containsKey(taskId)) {
             
             // get the task using the task ID
             taskModel taskToDelete = tasks.get(taskId);
 
-            result = "Task dengan ID: " + taskId + " berhasil dihapus. \n" +
-                     "Task: " + taskToDelete.getTask() + " - " + taskToDelete.getStatus() + "\n";
+            result = "Task: " + taskToDelete.getTask() + " - " + taskToDelete.getStatus();
 
             // delete task
             tasks.remove(taskId);
 
             
 
-            return result;
+            menu.window("Success Delete - ToDo-List", result);
         } else {
             result = "Task dengan ID: " + taskId + " tidak ditemukan.";
-            return result;
+            menu.window("Error on Delete - ToDo-List", result);
         }
     }
 
