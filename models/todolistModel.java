@@ -71,7 +71,7 @@ public class todoListModel implements todolistInterface {
 
         // check if tasks is empty
         if (tasks.size() == 0) {
-            menu.window("Error on Read - ToDo-List", "Tidak ada tugas!");
+            menu.window("Read - ToDo-List", "Tidak ada tugas!");
             return;
         }
 
