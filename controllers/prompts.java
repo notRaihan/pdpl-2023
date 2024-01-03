@@ -104,13 +104,12 @@ final public class prompts {
 
                         String updatedTaskName = scanner.nextLine();
 
-                        // check if task name is empty
+                        // if task name is empty then use old task name
                         if (updatedTaskName.length() == 0) {
                             menu.clearScreen();
 
-                            menu.window("Error on Update - ToDo-List", "Nama task tidak boleh kosong!");
-                            menu.back(scanner);
-                            break;
+                            // get old task name
+                            updatedTaskName = taskModel.getTasks().get(taskIndexToUpdate).getTask();
                         }
 
                         menu.clearScreen();
@@ -146,6 +145,7 @@ final public class prompts {
                         }
 
                         menu.clearScreen();
+
 
                         // print task message has been updasted
                         taskModel.update(taskIndexToUpdate, updatedTaskName, updatedStatus);
